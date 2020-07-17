@@ -1,0 +1,36 @@
+#include <Servo.h>
+
+int reading = 0;
+
+Servo servo_11;
+
+void setup()
+{
+  // initialize serial communication at 9600 bits per second:
+  Serial.begin(9600);
+  pinMode(12, INPUT);
+  pinMode(A0, INPUT);
+  pinMode(10, OUTPUT);
+  servo_11.attach(11);
+
+  pinMode(A1, INPUT);
+}
+
+void loop()
+{
+  if (digitalRead(12) == 0) {
+    reading = analogRead(A0);
+    analogWrite(10, (reading * 0.18));
+    servo_11.write((reading * 0.25));
+  } else {
+    reading = analogRead(A1);
+    analogWrite(10, (reading * 0.75 - 15.09));
+    servo_11.write((reading * 0.53 - 10.65));
+    // read the input on analog pin 0:
+  	int sensorValue = analogRead(A1);
+ 	  // print out the value you read:
+  	Serial.println(sensorValue);
+  	delay(1);        // delay in between reads for stability
+  }
+  delay(10); // Delay a little bit to improve simulation performance
+}
